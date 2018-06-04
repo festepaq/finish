@@ -23,7 +23,6 @@ public class PantallaJuego extends Pane implements Dimensiones{
 	private Tablero elTablero;
 	private Juego elJuego;
 	private EstadoDeJuego estado;
-	private TablaJugadas tabla;
 	private Button enroqueLargo;
 	private Button enroqueCorto;
 	private int cantJugadores;
@@ -65,8 +64,8 @@ public class PantallaJuego extends Pane implements Dimensiones{
 		
 		estado= new EstadoDeJuego(elJuego,enroqueLargo,enroqueCorto);
 		elTablero = new Tablero(elJuego);
-		tabla= new TablaJugadas();
-		controlador=new ControladorJuego(cantJugadores,colorElegido,elTablero,elJuego,estado,tabla);
+		
+		controlador=new ControladorJuego(cantJugadores,colorElegido,elTablero,elJuego,estado);
 		
 		inicializarMenu();
 	}
@@ -79,11 +78,7 @@ public class PantallaJuego extends Pane implements Dimensiones{
 			titulo.setAlignment(Pos.TOP_CENTER);
 			titulo.setId("labelChess");
 		
-		Button buttonGuardarPartida = new MyButton("Guardar", 130,670,200,50);
-			buttonGuardarPartida.getStyleClass().add("roundedButton");
-			buttonGuardarPartida.setOnAction(e->{
-				GuardarPartida.display(elJuego, cantJugadores, colorElegido);
-			});
+		
 		
 		Button buttonDeshacer = new MyButton("Deshacer",360,670,200,50);
 			buttonDeshacer.setOnAction(e->controlador.deshacerJugada());
@@ -92,9 +87,7 @@ public class PantallaJuego extends Pane implements Dimensiones{
 		Button buttonMenu = new MyButton("Menu",580,670,200,50);
 			buttonMenu.getStyleClass().add("roundedButton");
 			buttonMenu.setOnAction(e ->{
-				if(ConfirmacionSalir.display()){
-					GuardarPartida.display(elJuego, cantJugadores, colorElegido);
-				}
+
 				((Stage)(((Node) e.getSource()).getScene().getWindow())).setScene(new Scene( new Inicio()));
 			});
 			
@@ -115,7 +108,7 @@ public class PantallaJuego extends Pane implements Dimensiones{
 			}
 		} );
 
-		this.getChildren().addAll(titulo,buttonGuardarPartida,buttonDeshacer,buttonMenu,enroqueCorto,enroqueLargo,elTablero,estado,tabla);
+		this.getChildren().addAll(titulo,buttonDeshacer,buttonMenu,enroqueCorto,enroqueLargo,elTablero,estado);
 	}
 	
 	/**

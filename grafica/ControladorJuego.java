@@ -16,7 +16,7 @@ public class ControladorJuego {
 	private final boolean esUnJugador;
 	private Tablero elTablero;
 	private EstadoDeJuego estado;
-	private TablaJugadas tabla;
+	
 	
 	/**
 	 * Constructor del Juego que si es un jugador 
@@ -25,23 +25,20 @@ public class ControladorJuego {
 	 * @param tablero referencia al {@link Tablero}
 	 * @param elJuego referencia al Juego
 	 * @param estado referencia al {@link EstadoDeJuego}
-	 * @param tabla refercnia a la {@link TablaJugadas}
 	 */
-	public ControladorJuego (int cantJugadores,ColorPieza colorElegido, Tablero tablero,Juego elJuego,EstadoDeJuego estado,TablaJugadas tabla){
+	public ControladorJuego (int cantJugadores,ColorPieza colorElegido, Tablero tablero,Juego elJuego,EstadoDeJuego estado){
 		this.elJuego=elJuego;
 		esUnJugador = (cantJugadores == 1);
 		elTablero = tablero;
-		this.estado=estado;
-		this.tabla=tabla;
-		
+		this.estado=estado;		
 		if(esUnJugador){
-			if(colorElegido == ColorPieza.BLANCO){
-				jugadorBlanco= new JugadorHumano(elJuego,ColorPieza.BLANCO);
-				jugadorNegro= new JugadorInteligencia(elJuego,ColorPieza.NEGRO);
-			}else{
-				jugadorBlanco= new JugadorInteligencia(elJuego,ColorPieza.BLANCO);
-				jugadorNegro= new JugadorHumano(elJuego,ColorPieza.NEGRO);
-			}
+//			if(colorElegido == ColorPieza.BLANCO){
+//				jugadorBlanco= new JugadorHumano(elJuego,ColorPieza.BLANCO);
+//				jugadorNegro= new JugadorInteligencia(elJuego,ColorPieza.NEGRO);
+//			}else{
+//				jugadorBlanco= new JugadorInteligencia(elJuego,ColorPieza.BLANCO);
+//				jugadorNegro= new JugadorHumano(elJuego,ColorPieza.NEGRO);
+//			}
 		}else{
 			jugadorBlanco= new JugadorHumano(elJuego,ColorPieza.BLANCO);
 			jugadorNegro= new JugadorHumano(elJuego,ColorPieza.NEGRO);
@@ -69,10 +66,9 @@ public class ControladorJuego {
 			actualizoJugadorTurno();
 			if(esUnJugador && jugadorTurno instanceof JugadorHumano){
 				elJuego.revertir();
-				tabla.removerJugada();
+				
 			}
 			elJuego.revertir();
-			tabla.removerJugada();
 			elTablero.imprimirTablero();
 			estado.actualizarEstado();
 		}
@@ -84,7 +80,7 @@ public class ControladorJuego {
 	public void enroqueLargo(){
 		if(elJuego.sePuedeEnrocarLargo()){
 			elJuego.enrocarLargo();
-			tabla.agregarJugada(elJuego.dameUltimaJugada());
+			
 			elTablero.imprimirTablero();
 			estado.actualizarEstado();
 		}
@@ -96,7 +92,7 @@ public class ControladorJuego {
 	public void enroqueCorto(){
 		if(elJuego.sePuedeEnrocarCorto()){
 			elJuego.enrocarCorto();
-			tabla.agregarJugada(elJuego.dameUltimaJugada());
+		
 			elTablero.imprimirTablero();
 			estado.actualizarEstado();
 		}
@@ -121,7 +117,7 @@ public class ControladorJuego {
 		}
 		estado.actualizarEstado();
 		if(jugadorTurno.huboUnaJugada()){
-			tabla.agregarJugada(elJuego.dameUltimaJugada());
+	
 		}
 	}
 	

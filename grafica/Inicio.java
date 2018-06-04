@@ -8,7 +8,6 @@ import java.io.ObjectInputStream;
 
 import grafica.MyButton;
 import grafica.MyLabel;
-import grafica.OpcionesUnJugador;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -34,65 +33,29 @@ public class Inicio extends Pane {
 		titulo.setAlignment(Pos.TOP_CENTER);
 		titulo.setId("labelChess");
 
-		Button buttonUnJugador = new MyButton("Un Jugador", 200,200,300,100);
-		buttonUnJugador.getStyleClass().add("roundedButton");
-		buttonUnJugador.setOnAction(e -> ((Stage)(((Node) e.getSource()).getScene().getWindow())).setScene(new Scene(new OpcionesUnJugador())));
 
 		Button buttonDosJugadores = new MyButton("Dos Jugadores",200,320,300,100);
 		buttonDosJugadores.getStyleClass().add("roundedButton");
 		buttonDosJugadores.setOnAction(e -> ((Stage)(((Node) e.getSource()).getScene().getWindow())).setScene(new Scene(new PantallaJuego(2,ColorPieza.BLANCO))));
 
-		Button buttonCargarPartida = new MyButton("Cargar Partida",200,440,300,100);
-		buttonCargarPartida.getStyleClass().add("roundedButton");
-		buttonCargarPartida.setOnAction(e -> {
-			String nombreArchivo = pedirArchivo();
-			if(nombreArchivo != null && cargar(nombreArchivo)){
-				((Stage)(((Node) e.getSource()).getScene().getWindow())).setScene(new Scene(new PantallaJuego(juego,cantJugadores,colorElegido)));
-			}
-		});
-		
+                Button buttonIngresar = new MyButton("Ingresar",200,200,300,100);
+		buttonIngresar.getStyleClass().add("roundedButton");
+		buttonIngresar.setOnAction(e -> ((Stage)(((Node) e.getSource()).getScene().getWindow())).setScene(new Scene(new PantallaJuego(2,ColorPieza.BLANCO))));
+
+                
+                Button buttonRegistrarse = new MyButton("Registrar Usuario",200,440,300,100);
+		buttonRegistrarse.getStyleClass().add("roundedButton");
+		buttonRegistrarse.setOnAction(e -> ((Stage)(((Node) e.getSource()).getScene().getWindow())).setScene(new Scene(new RegistrarUsuario())));
+
+        
 		Button buttonSalir = new MyButton("Salir",200,560,300,100);
 		buttonSalir.getStyleClass().add("roundedButton");
 		buttonSalir.setOnAction(e-> ((Stage)(((Node) e.getSource()).getScene().getWindow())).close());
 		
-		this.getChildren().addAll(titulo,buttonUnJugador,buttonDosJugadores,buttonCargarPartida,buttonSalir);
+		this.getChildren().addAll(titulo,buttonIngresar,buttonDosJugadores,buttonRegistrarse,buttonSalir);
 		this.getStylesheets().add(getClass().getResource("../assets/application.css").toExternalForm());
 		
 	}
 	
-	private String pedirArchivo(){
-		FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(new Stage());
-		if(file != null){
-			return file.getName();
-		}
-		return null;
-	}
-	
-	private boolean cargar(String nombreArchivo){
-		
-		try {
-			FileInputStream file = new FileInputStream(nombreArchivo);
-			ObjectInputStream juegoCargado = new ObjectInputStream(file);
-			
-			juego = (Juego) juegoCargado.readObject();
-			cantJugadores = juegoCargado.readInt();
-			colorElegido = (ColorPieza) juegoCargado.readObject();
-			
-			juegoCargado.close();
-			
-		} catch (FileNotFoundException e){
-			
-			Alerta.display("Oh oh! Algo salio mal...", "El archivo cargado no se puede leer.");
-			return false;
-			
-		} catch (ClassNotFoundException | IOException e) {
-			
-			Alerta.display("Oh oh! Algo salio mal...", "Se ha producido un error al intentar cargar el archivo.");
-			return false;
-			
-		}
-		return true;
-		
-	}
+//
 }

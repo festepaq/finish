@@ -31,7 +31,7 @@ public interface Dimensiones {
 	final static double EST_ANCHO=200;
 	final static double EST_ALTO=137;
 	
-	final static int TABLA_JUGADAS=10;
+	
 	
 	
 }
